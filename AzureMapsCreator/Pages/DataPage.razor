@@ -1,0 +1,57 @@
+﻿@page "/DataPage"
+@inherits PageBase<MapDataDetailInfo>
+@using AzureMapsCreator.Models
+
+<h3>Upload a Drawing Package</h3>
+
+<p>
+    <label>
+        Upload either a zip file (containing the DWG file(s) and a manifest.json) or a GeoJson file<br /><br />
+        <InputFile OnChange="@LoadFile" />
+    </label>
+</p>
+Status: @status
+<br />
+<hr />
+<h3>Uploaded data</h3>
+
+@if (itemList != null)
+{
+    <div data-is-scrollable="true" style="height:300px;overflow-y:auto; width:100%">
+        <DetailsList ItemsSource="itemList"
+                 Columns="Columns"
+                 GetKey=@(item=>item.udid)
+                 LayoutMode="DetailsListLayoutMode.Justified"
+                 TItem="MapDataDetailInfo"
+                 OnItemInvoked="OnClick"
+                 Selection="Selection"
+                 SelectionMode="SelectionMode.Multiple" >
+        </DetailsList>
+    </div>
+
+    <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } }) Style="margin-top:25px; margin-bottom:25px; width:100%;">
+        <StackItem>
+            <DefaultButton @onclick="DeleteData" Disabled="Selection.Count==0">Delete</DefaultButton>
+        </StackItem>
+        <StackItem>
+            <DefaultButton @onclick="GetDataDetailInfo" Disabled="GetDisabled">Get info</DefaultButton>
+        </StackItem>
+        <StackItem>
+            @if (!string.IsNullOrEmpty(DownloadLink))
+            {
+                <a download href="@DownloadLink">Download</a>
+            }
+        </StackItem>
+    </Stack>
+}
+else
+{
+    <p>No 'uploaded data' found!</p>
+}
+<hr />
+<p>@details</p>
+@foreach (MessageItem message in messages)
+{
+    <MessageBar @key=@message.Id MessageBarType="@message.MessageType">@message.Message</MessageBar>
+}
+
