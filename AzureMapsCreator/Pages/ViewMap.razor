@@ -6,11 +6,11 @@
 <h3>Get Path</h3>
 <Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } }) Style="width:100%;">
     <StackItem>
-        <TextField Placeholder="From Location" id="txtFromLOcation" Value="@fromValue"></TextField>
+        <TextField Placeholder="From Location(Lat, Lon)" id="txtFromLOcation" Value="@fromValue"></TextField>
 
     </StackItem>
     <StackItem>
-        <TextField Placeholder="To Location" id="txtToLOcation"></TextField>
+        <TextField Placeholder="To Location(Room No)" id="txtToLOcation"></TextField>
     </StackItem>
     <StackItem>
         <DefaultButton @onclick="GetMapPath">Get Path</DefaultButton>
