@@ -1,0 +1,33 @@
+﻿@page "/ViewMap"
+
+@using AzureMapsControl.Components.Map
+ 
+
+<h3>Get Path</h3>
+<Stack Horizontal="true" Tokens=@(new StackTokens() { ChildrenGap = new[] { 40.0 } }) Style="width:100%;">
+    <StackItem>
+        <TextField Placeholder="From Location" id="txtFromLOcation" Value="@fromValue"></TextField>
+
+    </StackItem>
+    <StackItem>
+        <TextField Placeholder="To Location" id="txtToLOcation"></TextField>
+    </StackItem>
+    <StackItem>
+        <DefaultButton @onclick="GetMapPath">Get Path</DefaultButton>
+    </StackItem>
+    <StackItem>
+        <DefaultButton @onclick="Clear">Clear and Load</DefaultButton>
+    </StackItem>
+</Stack>
+@*<Spinner Size=@SpinnerSize.Large ClassName=""></Spinner>*@
+<div id="divMapPath" class="@mappathClassName">
+    <Image Src="Path1.jpg" ></Image>
+</div>
+
+<div div="divMap" class="@mapClassName">
+    <AzureMap Id="map"
+              CameraOptions="new CameraOptions { Center= new AzureMapsControl.Components.Atlas.Position(-122.13214, 47.63647), Zoom=19 }"
+              StyleOptions="new StyleOptions { Style = MapStyle.Blank }"
+              EventActivationFlags="AzureMapsControl.Components.Map.MapEventActivationFlags.None().Enable(AzureMapsControl.Components.Map.MapEventType.Ready, AzureMapsControl.Components.Map.MapEventType.Click)"
+              OnReady="OnMapReadyAsync" />
+</div>

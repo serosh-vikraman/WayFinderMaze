@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indoor Map with Path</title>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css">
+    <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+</head>
+<body>
+    <div id="mapDiv" style="width:100%;height:500px;"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var map = new atlas.Map('mapDiv', {
+                center: [-122.131620, 47.678136],
+                zoom: 19,
+                view: 'Auto',
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: '_gQuxUWtu7UVo85nvKMz84KfFJ5cxAPys9bytnIxVRY'
+                }
+            });
+
+            var tilesetId = '7e98b8b5-cdf6-3b3d-69ce-9c91e616d6ae'; // Replace with your Tileset ID from Azure Maps Creator
+
+            map.events.add('ready', function () {
+                map.layers.add(new atlas.layer.TileLayer({
+                    tilesetId: tilesetId,
+                    opacity: 0.7
+                }));
+
+                // Sample waypoints for your path
+                var waypoints = [
+                    [-122.130730, 47.643220],
+                    [-122.130830, 47.643230],
+                    [-122.130830, 47.643240],
+                    [-122.130830, 47.643270],
+                    [-122.130830, 47.643290],
+                    [-122.130830, 47.643340],
+                    [-122.130830, 47.643380],
+                ];
+
+                var path = new atlas.data.LineString(waypoints);
+                var dataSource = new atlas.source.DataSource();
+                dataSource.add(new atlas.data.Feature(path));
+
+                map.sources.add(dataSource);
+
+                var pathLayer = new atlas.layer.LineLayer({
+                    source: dataSource,
+                    strokeColor: 'blue',
+                    strokeWidth: 5
+                });
+
+                map.layers.add(pathLayer);
+            });
+        });
+    </script>
+</body>
+</html>
