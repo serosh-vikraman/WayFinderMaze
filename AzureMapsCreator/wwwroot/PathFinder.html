@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plot Indoor Path</title>
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css">
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+</head>
+<body>
+    <div id="myMap" style="width: 100%; height: 500px;"></div>
+
+    <script>
+        var map = new atlas.Map('myMap', {
+            center: [-122.128029, 47.645702],
+            zoom: 12,
+            view: 'Auto',
+            authOptions: {
+                authType: 'subscriptionKey',
+                subscriptionKey: '_gQuxUWtu7UVo85nvKMz84KfFJ5cxAPys9bytnIxVRY'
+            }
+        });
+        map.events.add('ready', function () {
+            var tilesetId = '7c1a077b-e611-aaf4-d52d-f67c08735053';
+            map.layers.add(new atlas.layer.TileLayer({
+                tilesetId: tilesetId,
+                opacity: 0.7
+            }));
+        });
+        // Data source
+        var dataSource = new atlas.source.DataSource();
+        map.sources.add(dataSource);
+
+        // Define a path
+        var line = new atlas.data.LineString([
+            [-122.128029, 47.645702],
+            [-122.127000, 47.646000],
+            [-122.127000, 47.647000],
+            [-122.127000, 47.648000],
+            [-122.127000, 47.649000] 
+        ]);
+
+        dataSource.add(new atlas.data.Feature(line));
+
+        // Render the path using a LineLayer
+        map.layers.add(new atlas.layer.LineLayer(dataSource, null, {
+            strokeColor: '#a64d79',
+            strokeWidth: 3
+        }));
+
+    </script>
+</body>
+</html>
